@@ -12,6 +12,40 @@
 1. Refer to [wchill/SwitchInputEmulator](https://github.com/wchill/SwitchInputEmulator) and compile for `atmega16u2` which is only used for USB-Serial on Arduino Uno R3.
 2. Go to `DFU mode` and flash `Joystick.hex` to `atmega16u2` chip on Arduino Uno R3.
 
+**I had a problem using that code**: It seems that even if my PC stops sending any bytes, `atmega16u2` still keeps sending back `0x90` ( `RESP_USB_ACK`), which messed up my serial port logic. My workaround is as following.
+#### workaround
+go to `./Arduino/src/Joystick.c` and edit these places:
+
+line 41:
+~~~diff
+USB_JoystickReport_Input_t defaultBuf;
+State_t state = OUT_OF_SYNC;
+
++ bool isNewData = false;
++
+ISR(USART1_RX_vect) {
+    uint8_t b = recv_byte();
+    if (state == SYNC_START) {
+~~~
+line 85:
+~~~diff
+                // send_byte(RESP_UPDATE_ACK);
++               isNewData = true;
+            }
+~~~
+line 207:
+~~~diff
+        if (state == SYNCED) {                
+            memcpy(&JoystickInputData, &buffer, sizeof(USB_JoystickReport_Input_t));
++            if (isNewData) {
++               isNewData = false;
+                send_byte(RESP_USB_ACK);
++            }
+        } else {
+            memcpy(&JoystickInputData, &defaultBuf, sizeof(USB_JoystickReport_Input_t));
+        }
+~~~
+
 ### Wire up
 
 #### PC to Arduino
