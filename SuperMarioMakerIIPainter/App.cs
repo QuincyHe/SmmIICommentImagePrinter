@@ -29,8 +29,8 @@ namespace SuperMarioMakerIIPainter
         public const int CANVAS_WIDTH = 320;
         public const int CANVAS_HEIGHT = 180;
 
-        public const int BTN_HOLD_TIME = 25;
-        public const int BTN_RELEASE_WAIT_TIME = 25;
+        public const int BTN_HOLD_TIME = 10;
+        public const int BTN_RELEASE_WAIT_TIME = 10;
 
         private Color[] palette = null;
         private Dictionary<Color, int> colorMap = null;
@@ -333,7 +333,12 @@ namespace SuperMarioMakerIIPainter
                     deltaX = isIncr ? 1 : -1;
                     x += deltaX;
                     deltaY = 0;
+
+                    Thread.Sleep(1);
                 }
+                SendButtonCommand(Command.None); // Release
+                Thread.Sleep(BTN_RELEASE_WAIT_TIME);
+
                 CanUse = true;
             });
         }
