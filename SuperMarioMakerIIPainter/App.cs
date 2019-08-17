@@ -292,16 +292,16 @@ namespace SuperMarioMakerIIPainter
                         //Console.WriteLine(deltaX < 0 ? "Left" : "Right");
                         SendButtonCommand(deltaX < 0 ? Command.DPAD_L : Command.DPAD_R);
                         Thread.Sleep(BTN_HOLD_TIME);
-                        SendButtonCommand(Command.None); // Release
-                        Thread.Sleep(BTN_RELEASE_WAIT_TIME);
+                        //SendButtonCommand(Command.None); // Release
+                        //Thread.Sleep(BTN_RELEASE_WAIT_TIME);
                     }
                     if (deltaY != 0)
                     {
                         //Console.WriteLine(deltaY < 0 ? "Up" : "Down");
                         SendButtonCommand(deltaY < 0 ? Command.DPAD_U : Command.DPAD_D);
                         Thread.Sleep(BTN_HOLD_TIME);
-                        SendButtonCommand(Command.None); // Release
-                        Thread.Sleep(BTN_RELEASE_WAIT_TIME);
+                        //SendButtonCommand(Command.None); // Release
+                        //Thread.Sleep(BTN_RELEASE_WAIT_TIME);
                     }
 
                     Color c = bitmap.GetPixel(x, y);
@@ -327,8 +327,8 @@ namespace SuperMarioMakerIIPainter
                     //Console.WriteLine("Draw!");
                     SendButtonCommand(Command.BTN_A);
                     Thread.Sleep(BTN_HOLD_TIME);
-                    SendButtonCommand(Command.None); // Release
-                    Thread.Sleep(BTN_RELEASE_WAIT_TIME);
+                    //SendButtonCommand(Command.None); // Release
+                    //Thread.Sleep(BTN_RELEASE_WAIT_TIME);
 
                     deltaX = isIncr ? 1 : -1;
                     x += deltaX;
